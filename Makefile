@@ -6,7 +6,7 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/10/22 13:48:42 by svannay          ###   ########.fr        #
+#    Updated: 2026/10/28 16:42:39 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,16 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SOURCE = 	ft_printf.c
-			
+SOURCE =	ft_printf.c utils/ft_count_digits.c utils/ft_free_format_specific.c\
+			utils/ft_free_node_content.c
+			utils/
+			utils/
+			utils/
+			utils/
+			utils/
+			utils/
+			utils/
+			utils/
 OBJECTS = $(SOURCE:.c=.o)
 
 INC_DIR = .
