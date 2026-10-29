@@ -6,7 +6,7 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/10/29 11:50:48 by svannay          ###   ########.fr        #
+#    Updated: 2026/10/29 16:32:16 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC =	ft_printf.c \
 		src/node.c \
 		src/output.c \
 		src/utils.c \
+		src/convert.c
 
 OBJ = $(SRC:.c=.o)
 

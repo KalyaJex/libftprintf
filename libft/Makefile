@@ -6,7 +6,7 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/10/29 11:39:52 by svannay          ###   ########.fr        #
+#    Updated: 2026/10/29 16:26:03 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,6 @@ SOURCE = 	ft_isalpha.c \
 			ft_strjoin.c \
 			ft_strtrim.c \
 			ft_split.c \
-			ft_itoa.c \
 			ft_strmapi.c \
 			ft_striteri.c \
 			ft_putchar_fd.c \

@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:29 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/29 11:53:19 by svannay          ###   ########.fr       */
+/*   Updated: 2026/10/29 16:37:10 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,8 +244,9 @@
 
 void	ft_print_node(void *content)
 {
+	//printf("|%s| |%s|\n", ((t_node_contents *)content)->substr, ((t_node_contents *)content)->str_to_print);
 	ft_putstr_fd(((t_node_contents *)content)->substr, 1);
-	
+	ft_putstr_fd(((t_node_contents *)content)->str_to_print, 1);
 	//ft_splitter(args, ((t_node_contents *)content)->type_value);
 }
 
@@ -417,6 +418,7 @@ int	ft_printf(const char *s, ...)
 	// 	temp = temp->next;
 	// }
 	ft_lstiter(list, ft_print_node);
+	//ft_lstmap();
 	ft_putstr_fd("CHECK END\n", 1);
 	ft_lstclear(&list, ft_free_node_content);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:04:31 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/29 11:26:07 by svannay          ###   ########.fr       */
+/*   Updated: 2026/10/29 13:43:26 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_free_format_specifier(t_format_specifier *format_specifier)
 	free(format_specifier);
 }
 
-int	ft_count_digits(long int n)
+int	ft_count_digits(long long int n)
 {
 	int			count;
 	int			is_negative;

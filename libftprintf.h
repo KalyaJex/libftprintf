@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:33 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/29 11:46:49 by svannay          ###   ########.fr       */
+/*   Updated: 2026/10/29 16:25:42 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "libft/libft.h"
+
+#define BASE10 10
+#define	BASE16 16
 
 typedef enum			e_lettercase 
 {
@@ -64,9 +67,10 @@ typedef struct			s_format_specifier
 typedef union			u_print_value
 {
 	int					i;
+	unsigned int		u;
 	char				c;
 	char 				*s;
-	intptr_t			*p;
+	intptr_t			p;
 }						t_print_value;
 
 typedef struct			s_node_contents
@@ -74,12 +78,13 @@ typedef struct			s_node_contents
 	char				*substr;
 	t_print_value		print_value;
 	t_format_specifier	*format_specifier;
+	char				*str_to_print;
 }						t_node_contents;
 
 int		ft_printf(const char *s, ...);
 
 // Utils functions
-int		ft_count_digits(long int n);
+int		ft_count_digits(long long int n);
 int		ft_isflag(int c);
 int		ft_islength(int c);
 int		ft_isprecision(int c);
@@ -112,11 +117,19 @@ void	ft_putubase_fd(unsigned long int n,
 int		ft_fill_node(t_list **list, char *next, char *substr, va_list args);
 int		ft_get_arg(t_node_contents *node, va_list args);
 int		ft_init_node(t_node_contents *node, char *str, va_list args);
+char	*ft_splitter(t_format_specifier *format_specifier, t_node_contents *node);
+char	*ft_create_str(t_format_specifier *format_specifier, t_node_contents *node);
 t_list	*ft_process_args(va_list args, char *s);
 
 // Error related functions
 int		ft_error_fill_node(t_list **list);
 int		ft_error_format_specifier(t_format_specifier *format_specifier);
 int		ft_error_init_node(t_node_contents *node);
+
+// Convertion functions
+char	*ft_ctos(char c);
+char	*ft_itoa(int n, unsigned int base, t_lettercase lettercase);
+char	*ft_ltoa(long int ln, unsigned int base, t_lettercase lettercase);
+char	*ft_utoa(unsigned int n, unsigned int base, t_lettercase lettercase);
 
 #endif
