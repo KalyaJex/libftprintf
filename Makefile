@@ -6,25 +6,29 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/10/28 16:42:39 by svannay          ###   ########.fr        #
+#    Updated: 2026/10/29 11:50:48 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-
+RM = rm -f
+AR = ar rcs
 CFLAGS = -Wall -Wextra -Werror
 
-SOURCE =	ft_printf.c utils/ft_count_digits.c utils/ft_free_format_specific.c\
-			utils/ft_free_node_content.c
-			utils/
-			utils/
-			utils/
-			utils/
-			utils/
-			utils/
-			utils/
-			utils/
-OBJECTS = $(SOURCE:.c=.o)
+SRC_DIR = src
+
+SRC =	ft_printf.c \
+		src/checks.c \
+		src/errors.c \
+		src/format_specifier.c \
+		src/gets.c \
+		src/node.c \
+		src/output.c \
+		src/utils.c \
+
+OBJ = $(SRC:.c=.o)
+
+LIBFT = libft
 
 INC_DIR = .
 CPPFLAGS = -I$(INC_DIR)
@@ -33,19 +37,24 @@ NAME = libftprintf.a
 
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
-	ar rcs $(NAME) $(OBJECTS)
+$(NAME): $(OBJ)
+	$(MAKE) -C $(LIBFT)
+	cp libft/libft.a .
+	mv libft.a $(NAME)
+	ar rcs $(NAME) $(OBJ)
 
 $(OBJECTS): %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm -f $(OBJECTS)
+	$(RM) $(OBJ)
+	$(MAKE) -C $(LIBFT) clean
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
+	$(RM) $(LIBFT)/libft.a
 
-re: fclean $(NAME)
-	make clean
+re: fclean all
+
 
 .PHONY: all clean fclean re

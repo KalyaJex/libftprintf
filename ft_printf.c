@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:29 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/28 16:07:55 by svannay          ###   ########.fr       */
+/*   Updated: 2026/10/29 11:53:19 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,23 +422,23 @@ int	ft_printf(const char *s, ...)
 	return (0);
 }
 
-int	main(void)
-{
-	//char *str = "string";
-	//printf("%010d\n", 123456);
-	//ft_printf("TEST\n");
-	ft_printf("%c\n", 'A');
-	// ft_printf("%s\n", str);
-	// ft_printf("%p\n", str);
-	// printf("%p\n", str);
-	// ft_printf("%d\n", 123);
-	// ft_printf("%i\n", -123);
-	// ft_printf("%u\n", 1234);
-	// ft_printf("%x\n", 123);
-	// ft_printf("%X\n", 123);
-	// ft_printf("%%\n");
-	// ft_printf("hello world %d, i like %s", 42, "cheese");
-}
+// int	main(void)
+// {
+// 	//char *str = "string";
+// 	//printf("%010d\n", 123456);
+// 	//ft_printf("TEST\n");
+// 	ft_printf("%c\n", 'A');
+// 	// ft_printf("%s\n", str);
+// 	// ft_printf("%p\n", str);
+// 	// printf("%p\n", str);
+// 	// ft_printf("%d\n", 123);
+// 	// ft_printf("%i\n", -123);
+// 	// ft_printf("%u\n", 1234);
+// 	// ft_printf("%x\n", 123);
+// 	// ft_printf("%X\n", 123);
+// 	// ft_printf("%%\n");
+// 	// ft_printf("hello world %d, i like %s", 42, "cheese");
+// }
 
 // %10d
 // %-10d
