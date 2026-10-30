@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:33 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/29 16:25:42 by svannay          ###   ########.fr       */
+/*   Updated: 2026/10/30 15:34:58 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "libft/libft.h"
 
 #define BASE10 10
@@ -26,20 +27,6 @@ typedef enum			e_lettercase
 	UPPERCASE,
 	LOWERCASE
 }						t_lettercase;
-
-// typedef enum			e_value_type 
-// {
-// 	TYPE_INT,
-// 	TYPE_CHAR,
-// 	TYPE_STR,
-// 	TYPE_PTR,
-// 	TYPE_DINT,
-// 	TYPE_UINT,
-// 	TYPE_UPX,
-// 	TYPE_LOWX,
-// 	TYPE_PERCENT,
-// 	TYPE_UNDEFINED
-// }						t_value_type;
 
 typedef enum			e_flags
 {
@@ -84,7 +71,7 @@ typedef struct			s_node_contents
 int		ft_printf(const char *s, ...);
 
 // Utils functions
-int		ft_count_digits(long long int n);
+int		ft_count_digits(long long int n, unsigned int base);
 int		ft_isflag(int c);
 int		ft_islength(int c);
 int		ft_isprecision(int c);
@@ -117,9 +104,9 @@ void	ft_putubase_fd(unsigned long int n,
 int		ft_fill_node(t_list **list, char *next, char *substr, va_list args);
 int		ft_get_arg(t_node_contents *node, va_list args);
 int		ft_init_node(t_node_contents *node, char *str, va_list args);
-char	*ft_splitter(t_format_specifier *format_specifier, t_node_contents *node);
-char	*ft_create_str(t_format_specifier *format_specifier, t_node_contents *node);
+char	*ft_splitter(t_node_contents *node);
 t_list	*ft_process_args(va_list args, char *s);
+char	*ft_create_str(t_node_contents *node);
 
 // Error related functions
 int		ft_error_fill_node(t_list **list);
@@ -131,5 +118,9 @@ char	*ft_ctos(char c);
 char	*ft_itoa(int n, unsigned int base, t_lettercase lettercase);
 char	*ft_ltoa(long int ln, unsigned int base, t_lettercase lettercase);
 char	*ft_utoa(unsigned int n, unsigned int base, t_lettercase lettercase);
+
+// Linked list functions
+size_t	ft_lstsum(t_list *list, size_t (*getlen)(void *));
+size_t	ft_get_strlen(void *content);
 
 #endif

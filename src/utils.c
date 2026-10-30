@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:04:31 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/29 13:43:26 by svannay          ###   ########.fr       */
+/*   Updated: 2026/10/30 14:59:58 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_free_node_content(void *content)
 	if (((t_node_contents *)content)->format_specifier)
 		ft_free_format_specifier(((t_node_contents *)content)->format_specifier);
 	free(((t_node_contents *)content)->substr);
+	if (((t_node_contents *)content)->str_to_print)
+		free(((t_node_contents *)content)->str_to_print);
 	if (content)
 		free(content);
 }
@@ -41,7 +43,7 @@ void	ft_free_format_specifier(t_format_specifier *format_specifier)
 	free(format_specifier);
 }
 
-int	ft_count_digits(long long int n)
+int	ft_count_digits(long long int n, unsigned int base)
 {
 	int			count;
 	int			is_negative;
@@ -57,7 +59,7 @@ int	ft_count_digits(long long int n)
 	count = 0;
 	while (0 < n)
 	{
-		n /= 10;
+		n /= base;
 		count++;
 	}
 	return (count + is_negative);

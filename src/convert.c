@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:35:34 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/29 14:51:08 by svannay          ###   ########.fr       */
+/*   Updated: 2026/10/30 15:02:06 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_itoa(int n, unsigned int base, t_lettercase lettercase)
 	char		*str;
 
 	l_n = n;
-	nb_digits = ft_count_digits(l_n);
+	nb_digits = ft_count_digits(l_n, base);
 	str = malloc((nb_digits + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
@@ -53,7 +53,7 @@ char	*ft_ltoa(long int ln, unsigned int base, t_lettercase lettercase)
 	char		*str;
 
 	ll_n = ln;
-	nb_digits = ft_count_digits(ll_n);
+	nb_digits = ft_count_digits(ll_n, base);
 	str = malloc((nb_digits + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
@@ -90,7 +90,7 @@ char	*ft_utoa(unsigned int n, unsigned int base, t_lettercase lettercase)
 	int			nb_digits;
 	char		*str;
 
-	nb_digits = ft_count_digits(n);
+	nb_digits = ft_count_digits(n, base);
 	str = malloc((nb_digits + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
