@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:04:31 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/30 14:59:58 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/02 14:45:02 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,13 @@ char	*ft_getbase(t_lettercase lettercase)
 void	ft_free_node_content(void *content)
 {
 	if (((t_node_contents *)content)->format_specifier)
+	{
+		if (((t_node_contents *)content)->format_specifier->specifier == 's')
+			free(((t_node_contents *)content)->print_value.s);
+		if (((t_node_contents *)content)->format_specifier->flag)
+			free(((t_node_contents *)content)->format_specifier->flag);
 		ft_free_format_specifier(((t_node_contents *)content)->format_specifier);
+	}
 	free(((t_node_contents *)content)->substr);
 	if (((t_node_contents *)content)->str_to_print)
 		free(((t_node_contents *)content)->str_to_print);

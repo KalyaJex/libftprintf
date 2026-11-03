@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:12:09 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/30 16:12:54 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/03 09:30:23 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,26 +57,93 @@ char	*ft_splitter(t_node_contents *node)
 	return (NULL);
 }
 
+char	ft_get_padding_char(t_format_specifier *format_specifier)
+{
+	if (ft_strcontain(format_specifier->flag, '0')
+		&& !ft_strcontain(format_specifier->flag, '-')
+		&& format_specifier->precision <= 0)
+		return ('0');
+	else
+		return (' ');
+}
+
+char	*ft_create_padding(unsigned int size, char c)
+{
+	char				*padding;
+	unsigned int		index;
+	
+	index = 0;
+	padding = malloc((size + 1) * sizeof(char));
+	if (!padding)
+		return (NULL);
+	while (index < size)
+	{
+		padding[index] = c;
+		index++;
+	}
+	padding[index] = '\0';
+	return (padding);
+}
+
+char	*ft_apply_width(t_node_contents *node, char *str, size_t len)
+{
+	char				*padding;
+	char				*new;
+	unsigned int		index;
+	t_format_specifier	*format_specifier;
+	
+	index = 0;
+	format_specifier = node->format_specifier;
+	padding = ft_create_padding(format_specifier->width - len, ft_get_padding_char(format_specifier));
+	if (ft_strcontain(format_specifier->flag, '-'))
+		new = ft_strjoin(str, padding);
+	else
+		new = ft_strjoin(padding, str);
+	free(padding);
+	free(str);
+	return (new);
+}
+
+char	*ft_apply_precision(t_node_contents *node, char *str, size_t len)
+{
+	char				*padding;
+	char				*new;
+	unsigned int		index;
+	t_format_specifier	*format_specifier;
+	
+	format_specifier = node->format_specifier;
+	if (ft_strcontain("diuxX", format_specifier->specifier))
+	{
+		if (node->print_value.i > 0)
+			new = ft_strinsert(str, ft_create_padding(format_specifier->precision - len, '0'), 0);
+		else
+			new = ft_strinsert(str, ft_create_padding(format_specifier->precision - len, '0'), 1);
+		return (new);
+	}
+	else if (format_specifier->specifier == 's')
+	{
+		
+	}
+}
+
 char	*ft_create_str(t_node_contents *node)
 {
 	char	*str;
 	size_t	len;
 	char	*padding;
+	
 
+	padding = NULL;
 	str = ft_splitter(node);
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
-	if (node->format_specifier->width > len)
+	if (node->format_specifier->precision > len)
 	{
-		padding = malloc((node->format_specifier->width + 1) * sizeof(char));
-		if (!padding)
-			return (NULL);
-		padding = ft_memset(padding, ' ', node->format_specifier->width - len);
-		padding[node->format_specifier->width - len + 1] = '\0';
-		ft_strlcat(padding, str, node->format_specifier->width + 1);
-		return (padding);
+		
 	}
+	if (node->format_specifier->width > len)
+		return (ft_apply_width(node, str, len));
 	return (str);
 }
 
@@ -166,12 +233,12 @@ int	ft_init_node(t_node_contents *node, char *next, va_list args)
 	if (0 > format_specifier_l)
 		return (ft_error_format_specifier(format_specifier));
 	node->format_specifier = format_specifier;
-	if (0 > ft_get_arg(node, args))
-		return (ft_error_init_node(node));
 	if (node->format_specifier->width_flag)
 		node->format_specifier->width = va_arg(args, int);
 	if (node->format_specifier->precision_flag)
 		node->format_specifier->precision = va_arg(args, int);
+	if (0 > ft_get_arg(node, args))
+		return (ft_error_init_node(node));
 	return (format_specifier_l);
 }
 

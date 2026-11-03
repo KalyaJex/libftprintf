@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:33 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/30 15:34:58 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/03 11:05:39 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct			s_format_specifier
 {
 	char				*format;
 	char				*og_ptr;
-	char				flag;
+	char				*flag;
 	unsigned int		width;
 	char				width_flag;
 	unsigned int		precision;
@@ -82,13 +82,12 @@ char	*ft_getbase(t_lettercase lettercase);
 
 // Specifier related functions
 int		ft_analyse_format_specifier(t_format_specifier *format_specifier);
-char	*ft_extract_format_specifier(char *str);
 int		ft_extract_number(char *str);
-void	ft_get_flag(t_format_specifier *format_specifier);
-void	ft_get_length(t_format_specifier *format_specifier);
-void	ft_get_precision(t_format_specifier *format_specifier);
-void	ft_get_specifier(t_format_specifier *format_specifier);
-void	ft_get_width(t_format_specifier *format_specifier);
+int		ft_get_flag(t_format_specifier *format_specifier);
+int		ft_get_length(t_format_specifier *format_specifier);
+int		ft_get_precision(t_format_specifier *format_specifier);
+int		ft_get_specifier(t_format_specifier *format_specifier);
+int		ft_get_width(t_format_specifier *format_specifier);
 int		ft_init_format_specifier(t_format_specifier *format_specifier, 
 			char* str);
 
@@ -122,5 +121,10 @@ char	*ft_utoa(unsigned int n, unsigned int base, t_lettercase lettercase);
 // Linked list functions
 size_t	ft_lstsum(t_list *list, size_t (*getlen)(void *));
 size_t	ft_get_strlen(void *content);
+
+// strings related functions
+int		ft_strcontain(char *str, int c);
+char	*ft_extract_substr(char *str, int (*check)(int));
+char	*ft_strinsert(char *dest, char *src, unsigned int pos);
 
 #endif

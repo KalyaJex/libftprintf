@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:29 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/30 15:31:55 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/02 12:49:54 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -424,6 +424,7 @@ int	ft_printf(const char *s, ...)
 	size = ft_lstsum(list, ft_get_strlen);
 	//ft_lstmap();
 	//ft_putstr_fd("CHECK END\n", 1);
+	//printf("%u\n", ft_lstsize(list));
 	ft_lstclear(&list, ft_free_node_content);
 	return (size);
 }
