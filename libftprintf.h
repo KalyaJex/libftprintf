@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:33 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/03 11:05:39 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/04 15:10:46 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 #define BASE10 10
 #define	BASE16 16
+#define TRUE 1
+#define FALSE 0
 
 typedef enum			e_lettercase 
 {
@@ -46,9 +48,9 @@ typedef struct			s_format_specifier
 	char				width_flag;
 	unsigned int		precision;
 	char				precision_flag;
-	char				length;
-	int					is_length_flag_double;
+	char				*length;
 	char				specifier;
+	int					is_gibberish;
 }						t_format_specifier;
 
 typedef union			u_print_value
@@ -76,9 +78,12 @@ int		ft_isflag(int c);
 int		ft_islength(int c);
 int		ft_isprecision(int c);
 int		ft_isspecifier(int c);
+int		ft_iswidth(int c);
 void	ft_free_format_specifier(t_format_specifier *format_specifier);
 void	ft_free_node_content(void *content);
 char	*ft_getbase(t_lettercase lettercase);
+int		ft_check_next_spec(int c);
+char	*ft_free_all(unsigned int n, ...);
 
 // Specifier related functions
 int		ft_analyse_format_specifier(t_format_specifier *format_specifier);
@@ -87,7 +92,7 @@ int		ft_get_flag(t_format_specifier *format_specifier);
 int		ft_get_length(t_format_specifier *format_specifier);
 int		ft_get_precision(t_format_specifier *format_specifier);
 int		ft_get_specifier(t_format_specifier *format_specifier);
-int		ft_get_width(t_format_specifier *format_specifier);
+int		ft_get_width(t_format_specifier *format_spec);
 int		ft_init_format_specifier(t_format_specifier *format_specifier, 
 			char* str);
 
@@ -124,7 +129,8 @@ size_t	ft_get_strlen(void *content);
 
 // strings related functions
 int		ft_strcontain(char *str, int c);
-char	*ft_extract_substr(char *str, int (*check)(int));
+char	*ft_extract_substr(char *str, int (*check)(int), int to_last_occurence);
 char	*ft_strinsert(char *dest, char *src, unsigned int pos);
+char	*strndup(const char *s, size_t n);
 
 #endif

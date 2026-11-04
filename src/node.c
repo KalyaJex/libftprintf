@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:12:09 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/03 09:30:23 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/04 17:00:07 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char	*ft_create_address(intptr_t ptr)
 
 	str = ft_ltoa(ptr, BASE16, LOWERCASE);
 	if (!str)
-		return NULL;
+		return (NULL);
 	size = ft_strlen(str);
 	start = malloc((size + 3) * sizeof(char));
 	if (!start)
-		return NULL;
+		return (NULL);
 	start[0] = '0';
 	start[1] = 'x';
 	start[2] = '\0';
@@ -36,7 +36,7 @@ char	*ft_create_address(intptr_t ptr)
 char	*ft_splitter(t_node_contents *node)
 {
 	char		c;
-	//printf("%c", node->format_specifier->specifier);
+
 	c = node->format_specifier->specifier;
 	if (c == '%')
 		return (ft_ctos(node->print_value.c));
@@ -71,7 +71,7 @@ char	*ft_create_padding(unsigned int size, char c)
 {
 	char				*padding;
 	unsigned int		index;
-	
+
 	index = 0;
 	padding = malloc((size + 1) * sizeof(char));
 	if (!padding)
@@ -91,10 +91,13 @@ char	*ft_apply_width(t_node_contents *node, char *str, size_t len)
 	char				*new;
 	unsigned int		index;
 	t_format_specifier	*format_specifier;
-	
+
 	index = 0;
 	format_specifier = node->format_specifier;
-	padding = ft_create_padding(format_specifier->width - len, ft_get_padding_char(format_specifier));
+	padding = ft_create_padding(format_specifier->width - len,
+			ft_get_padding_char(format_specifier));
+	if (!padding)
+		return (str);
 	if (ft_strcontain(format_specifier->flag, '-'))
 		new = ft_strjoin(str, padding);
 	else
@@ -106,45 +109,68 @@ char	*ft_apply_width(t_node_contents *node, char *str, size_t len)
 
 char	*ft_apply_precision(t_node_contents *node, char *str, size_t len)
 {
-	char				*padding;
 	char				*new;
-	unsigned int		index;
-	t_format_specifier	*format_specifier;
-	
-	format_specifier = node->format_specifier;
-	if (ft_strcontain("diuxX", format_specifier->specifier))
+	t_format_specifier	*format_spec;
+
+	format_spec = node->format_specifier;
+	new = NULL;
+	if (ft_strcontain("diuxX", format_spec->specifier)
+		&& format_spec->precision > len)
 	{
 		if (node->print_value.i > 0)
-			new = ft_strinsert(str, ft_create_padding(format_specifier->precision - len, '0'), 0);
+			new = ft_strinsert(str,
+					ft_create_padding(format_spec->precision - len, '0'),
+					0);
 		else
-			new = ft_strinsert(str, ft_create_padding(format_specifier->precision - len, '0'), 1);
-		return (new);
+			new = ft_strinsert(str,
+					ft_create_padding(format_spec->precision - len + 1, '0'),
+					1);
 	}
-	else if (format_specifier->specifier == 's')
-	{
-		
-	}
+	else if (format_spec->specifier == 's'
+		&& format_spec->precision_flag)
+		new = strndup(str, format_spec->precision);
+	if (!new)
+		return (str);
+	free(str);
+	return (new);
 }
 
 char	*ft_create_str(t_node_contents *node)
 {
 	char	*str;
-	size_t	len;
-	char	*padding;
 	
-
-	padding = NULL;
+	//printf("%d\n", node->format_specifier->is_gibberish);
+	if (node->format_specifier->is_gibberish)
+		return (ft_strinsert(node->format_specifier->og_ptr, "%", 0));
 	str = ft_splitter(node);
 	if (!str)
 		return (NULL);
-	len = ft_strlen(str);
-	if (node->format_specifier->precision > len)
-	{
-		
-	}
-	if (node->format_specifier->width > len)
-		return (ft_apply_width(node, str, len));
+	str = ft_apply_precision(node, str, ft_strlen(str));
+	if (node->format_specifier->width > ft_strlen(str))
+		str = ft_apply_width(node, str, ft_strlen(str));
+	//printf("%s\n", str);
 	return (str);
+}
+
+int	ft_fill_content(t_node_contents *content, char *next, char *substr, va_list args)
+{
+	int	format_specifier_l;
+
+	format_specifier_l = 0;
+	if (!*next)
+	{
+		content->format_specifier = NULL;
+		content->str_to_print = NULL;
+	}
+	else
+	{
+		format_specifier_l = ft_init_node(content, next, args);
+		content->str_to_print = ft_create_str(content);
+	} 
+	if (0 > format_specifier_l)
+		return (-1);
+	content->substr = substr;
+	return (format_specifier_l);
 }
 
 int	ft_fill_node(t_list **list, char *next, char *substr, va_list args)
@@ -158,19 +184,9 @@ int	ft_fill_node(t_list **list, char *next, char *substr, va_list args)
 	node_content = (t_node_contents *)malloc(sizeof(t_node_contents));
 	if (!node_content)
 		return (ft_error_fill_node(list));
-	if (!*next)
-	{
-		node_content->format_specifier = NULL;
-		node_content->str_to_print = NULL;
-	}
-	else
-	{
-		format_specifier_l = ft_init_node(node_content, next, args);
-		node_content->str_to_print = ft_create_str(node_content);
-	} 
+	format_specifier_l = ft_fill_content(node_content, next, substr, args);
 	if (0 > format_specifier_l)
 		return (ft_error_fill_node(list));
-	node_content->substr = substr;
 	node = ft_lstnew(node_content);
 	if (!node)
 		return (ft_error_fill_node(list));
@@ -181,7 +197,6 @@ int	ft_fill_node(t_list **list, char *next, char *substr, va_list args)
 int ft_get_arg(t_node_contents *node, va_list args)
 {
 	char	c;
-	//uintptr_t	p;
 
 	c = node->format_specifier->specifier;
 	if (c == '%')
@@ -233,9 +248,11 @@ int	ft_init_node(t_node_contents *node, char *next, va_list args)
 	if (0 > format_specifier_l)
 		return (ft_error_format_specifier(format_specifier));
 	node->format_specifier = format_specifier;
-	if (node->format_specifier->width_flag)
+	if (node->format_specifier->is_gibberish)
+		return (format_specifier_l);
+	if (node->format_specifier->width_flag == '*')
 		node->format_specifier->width = va_arg(args, int);
-	if (node->format_specifier->precision_flag)
+	if (node->format_specifier->precision_flag == '*')
 		node->format_specifier->precision = va_arg(args, int);
 	if (0 > ft_get_arg(node, args))
 		return (ft_error_init_node(node));

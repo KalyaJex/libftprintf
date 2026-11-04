@@ -6,7 +6,7 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/11/02 14:41:37 by svannay          ###   ########.fr        #
+#    Updated: 2026/11/04 12:00:18 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ CFLAGS = -Wall -Wextra -Werror
 SRC_DIR = src
 
 SRC =	ft_printf.c \
-		src/checks.c \
+		src/checks1.c \
+		src/checks2.c \
 		src/errors.c \
 		src/format_specifier.c \
 		src/gets.c \
