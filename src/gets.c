@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:06:32 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/04 15:37:39 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 11:38:15 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ int	ft_get_flag(t_format_specifier *format_spec)
 		return (-1);
 	if (ft_isflag(*(format_spec->format)))
 	{
-		format_spec->flag = ft_extract_substr(format_spec->format,
-				ft_isflag,
-				TRUE);
+		format_spec->flag = ft_extract_subspecifier(format_spec->format,
+				ft_isflag);
 		(format_spec->format) += ft_strlen(format_spec->flag);
 	}
 	return (0);
@@ -37,9 +36,8 @@ int	ft_get_length(t_format_specifier *format_spec)
 		return (-1);
 	while (ft_islength(*(format_spec->format)))
 	{
-		format_spec->length = ft_extract_substr(format_spec->format,
-				ft_islength,
-				TRUE);
+		format_spec->length = ft_extract_subspecifier(format_spec->format,
+				ft_islength);
 		(format_spec->format) += ft_strlen(format_spec->length);
 	}
 	return (0);
@@ -107,3 +105,5 @@ int	ft_get_width(t_format_specifier *format_spec)
 	}
 	return (0);
 }
+
+//int	ft_get_percent()

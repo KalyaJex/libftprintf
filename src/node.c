@@ -6,19 +6,21 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:12:09 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/04 17:00:07 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 17:10:39 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-char	*ft_create_address(intptr_t ptr)
+char	*ft_create_address(uintptr_t ptr)
 {
 	char	*str;
 	char	*start;
 	size_t	size;
 
-	str = ft_ltoa(ptr, BASE16, LOWERCASE);
+	if (ptr == 0)
+		return (ft_strdup("(nil)"));
+	str = ft_ultoa(ptr, BASE16, LOWERCASE);
 	if (!str)
 		return (NULL);
 	size = ft_strlen(str);
@@ -51,9 +53,9 @@ char	*ft_splitter(t_node_contents *node)
 	else if (c == 'u')
 		return (ft_utoa(node->print_value.u, BASE10, LOWERCASE));
 	else if (c == 'x')
-		return (ft_itoa(node->print_value.i, BASE16, LOWERCASE));
+		return (ft_ltoa(node->print_value.i, BASE16, LOWERCASE));
 	else if (c == 'X')
-		return (ft_itoa(node->print_value.i, BASE16, UPPERCASE));
+		return (ft_ltoa(node->print_value.i, BASE16, UPPERCASE));
 	return (NULL);
 }
 
@@ -161,14 +163,18 @@ int	ft_fill_content(t_node_contents *content, char *next, char *substr, va_list 
 	{
 		content->format_specifier = NULL;
 		content->str_to_print = NULL;
+		content->write_error = FALSE;
 	}
 	else
 	{
 		format_specifier_l = ft_init_node(content, next, args);
-		content->str_to_print = ft_create_str(content);
+		if (0 > format_specifier_l)
+			return (-1);
+		if (content->format_specifier && content->format_specifier->specifier == 'c')
+			content->str_to_print = NULL;
+		else
+			content->str_to_print = ft_create_str(content);
 	} 
-	if (0 > format_specifier_l)
-		return (-1);
 	content->substr = substr;
 	return (format_specifier_l);
 }
@@ -179,6 +185,8 @@ int	ft_fill_node(t_list **list, char *next, char *substr, va_list args)
 	t_list			*node;
 	int				format_specifier_l;
 
+	if (!substr)
+		return (ft_error_fill_node(list));
 	node = NULL;
 	format_specifier_l = 0;
 	node_content = (t_node_contents *)malloc(sizeof(t_node_contents));
@@ -205,7 +213,7 @@ int ft_get_arg(t_node_contents *node, va_list args)
 		return (0);
 	}
 	if (c == 'c')
-		node->print_value.c = (char)va_arg(args, int);
+		node->print_value.c = (unsigned char)va_arg(args, int);
 	else if (c == 's')
 	{
 		node->print_value.s = ft_strdup(va_arg(args, char *));
@@ -219,20 +227,8 @@ int ft_get_arg(t_node_contents *node, va_list args)
 	else if (c == 'u')
 		node->print_value.u = va_arg(args, unsigned int);
 	else if (c == 'd' || c == 'i' || c == 'x' || c == 'X')
-		node->print_value.i = va_arg(args, int);
+		node->print_value.i = (long int)va_arg(args, long int);
 	return (0);
-}
-
-char	*ft_char_to_str(char c)
-{
-	char		*str;
-	
-	str = malloc(2 * sizeof(char));
-	if (!str)
-		return (NULL);
-	str[0] = c;
-	str[1] = '\0'; 
-	return (str);
 }
 
 int	ft_init_node(t_node_contents *node, char *next, va_list args)
@@ -248,6 +244,7 @@ int	ft_init_node(t_node_contents *node, char *next, va_list args)
 	if (0 > format_specifier_l)
 		return (ft_error_format_specifier(format_specifier));
 	node->format_specifier = format_specifier;
+	node->write_error = 0;
 	if (node->format_specifier->is_gibberish)
 		return (format_specifier_l);
 	if (node->format_specifier->width_flag == '*')

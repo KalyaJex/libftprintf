@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:04:31 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/04 13:01:07 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 17:12:34 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,12 @@ void	ft_free_node_content(void *content)
 			free(((t_node_contents *)content)->format_specifier->length);
 		ft_free_format_specifier(((t_node_contents *)content)->format_specifier);
 	}
-	free(((t_node_contents *)content)->substr);
+	if (((t_node_contents *)content)->substr)
+		free(((t_node_contents *)content)->substr);
 	if (((t_node_contents *)content)->str_to_print)
 		free(((t_node_contents *)content)->str_to_print);
+	// if (((t_node_contents *)content)->print_value.s)
+	// 	free(((t_node_contents *)content)->print_value.s);
 	if (content)
 		free(content);
 }

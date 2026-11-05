@@ -6,14 +6,17 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 13:35:08 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/12 14:26:01 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 15:26:34 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+ssize_t	ft_putendl_fd(char *s, int fd)
 {
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
+	if (ft_putstr_fd(s, fd) < 0)
+		return (-1);
+	if (ft_putchar_fd('\n', fd) < 0)
+		return (-1);
+	return (0);
 }

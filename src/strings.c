@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:49:06 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/04 16:54:48 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 14:41:49 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,32 @@ int	ft_strcontain(char *str, int c)
 	return (1);
 }
 
-char	*ft_extract_substr(char *str, int (*check)(int), int to_last_occurence)
+char	*ft_extract_format(char *str, int (*check)(int))
+{
+	unsigned int	index;
+
+	//printf("C %c\n", *str);
+	if (*(str) == '%')
+		return(ft_substr(str, 0, 1));
+	index = 0;
+	while (str[index])
+	{
+		if (check(str[index]))
+			break ;
+		index++;
+	}
+	return (ft_substr(str, 0, index + 1));
+}
+
+char	*ft_extract_subspecifier(char *str, int (*check)(int))
 {
 	unsigned int	index;
 
 	index = 0;
 	while (str[index])
 	{
-		if (to_last_occurence
-			&& index
+		if (index
 			&& (check(str[index]) && check(str[index - 1])))
-			break ;
-		if (check(str[index]))
 			break ;
 		index++;
 	}

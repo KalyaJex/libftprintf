@@ -6,13 +6,13 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 12:56:07 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/12 14:26:03 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 14:57:42 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-void	ft_putchar_fd(char c, int fd)
+ssize_t	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	return (write(fd, &c, 1));
 }

@@ -6,14 +6,21 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:08:44 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/04 15:34:15 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 14:46:29 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
+
+
 int	ft_analyse_format_specifier(t_format_specifier *format_specifier)
 {	
+	if (*(format_specifier->format) == '%')
+	{
+		format_specifier->specifier = '%';
+		return (0);
+	}
 	if(ft_get_flag(format_specifier) < 0)
 		return (-1);
 	if(ft_get_width(format_specifier) < 0)
@@ -52,9 +59,11 @@ int	ft_init_format_specifier(t_format_specifier *format_specifier, char* str)
 	int	format_specifier_l;
 
 	error = 0;
-	format_specifier->format = ft_extract_substr(str, ft_check_next_spec, FALSE);
+	format_specifier->format = ft_extract_format(str, ft_check_next_spec);
 	format_specifier->og_ptr = format_specifier->format;
+	//printf("%s %s\n", format_specifier->format, str);
 	format_specifier_l = (int)ft_strlen(format_specifier->format);
+	//printf("%d\n", format_specifier_l);
 	if (!format_specifier->format)
 		return (-1);
 	format_specifier->flag = NULL;

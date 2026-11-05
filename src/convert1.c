@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.c                                          :+:      :+:    :+:   */
+/*   convert1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 13:35:34 by svannay           #+#    #+#             */
-/*   Updated: 2026/10/30 15:02:06 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 12:43:55 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-static char	*ft_add_zero(char *str)
+char	*ft_add_zero(char *str)
 {
 	*str = '0';
 	*(str + 1) = '\0';
@@ -77,9 +77,19 @@ char	*ft_ctos(char c)
 {
 	char		*str;
 	
+	if (!c)
+	{
+		str = malloc(2 * sizeof(char));
+		if (!str)
+			return (NULL);
+		str[0] = '0';
+		str[1] = '\0'; 
+		return (str);
+	}
 	str = malloc(2 * sizeof(char));
 	if (!str)
 		return (NULL);
+	
 	str[0] = c;
 	str[1] = '\0'; 
 	return (str);

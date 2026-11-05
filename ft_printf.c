@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:29 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/02 12:49:54 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/05 15:44:55 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,10 +244,22 @@
 
 void	ft_print_node(void *content)
 {
+	t_format_specifier	*format_specifier;
+
+	format_specifier = ((t_node_contents *)content)->format_specifier;
 	//printf("|%s| |%s|\n", ((t_node_contents *)content)->substr, ((t_node_contents *)content)->str_to_print);
-	ft_putstr_fd(((t_node_contents *)content)->substr, 1);
+	if (ft_putstr_fd(((t_node_contents *)content)->substr, 1) < 0)
+		((t_node_contents *)content)->write_error = TRUE;
 	if (((t_node_contents *)content)->str_to_print)
-		ft_putstr_fd(((t_node_contents *)content)->str_to_print, 1);
+	{
+		if (ft_putstr_fd(((t_node_contents *)content)->str_to_print, 1) < 0)
+			((t_node_contents *)content)->write_error = TRUE;
+	}
+	else if (format_specifier && format_specifier->specifier == 'c')
+	{
+		if (ft_putchar_fd(((t_node_contents *)content)->print_value.c, 1) < 0)
+			((t_node_contents *)content)->write_error = TRUE;
+	}
 	//ft_splitter(args, ((t_node_contents *)content)->type_value);
 }
 
@@ -404,27 +416,25 @@ int	ft_printf(const char *s, ...)
 	t_list	*list;
 	t_list	*temp;
 	size_t	size;
-	
 
+	list = NULL;
 	va_start(args, s);
-	//ft_putstr_fd("CHECK START\n", 1);
 	list = ft_process_args(args, (char *)s);
 	va_end(args);
-	// TODO: display
 	if (!list)
 		return (-1);
-	temp = list;
-	// while (temp)
-	// {
-	// 	ft_putstr_fd(((t_node_contents *)temp->content)->substr, 1);
-	// 	//ft_splitter(args, ((t_node_contents *)temp->content)->symbol);
-	// 	temp = temp->next;
-	// }
 	ft_lstiter(list, ft_print_node);
+	temp = list;
+	while (temp)
+	{
+		if (((t_node_contents *)temp->content)->write_error)
+		{
+			ft_lstclear(&list, ft_free_node_content);
+			return (-1);
+		}
+		temp = temp->next;
+	}
 	size = ft_lstsum(list, ft_get_strlen);
-	//ft_lstmap();
-	//ft_putstr_fd("CHECK END\n", 1);
-	//printf("%u\n", ft_lstsize(list));
 	ft_lstclear(&list, ft_free_node_content);
 	return (size);
 }
