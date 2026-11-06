@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:06:32 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/05 11:38:15 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/06 14:21:57 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,29 @@ int	ft_get_length(t_format_specifier *format_spec)
 	return (0);
 }
 
-int	ft_get_precision(t_format_specifier *format_spec)
+int	ft_get_precision(t_format_specifier *f_spec)
 {
-	if (!(ft_isprecision(*(format_spec->format))
-			|| ft_islength(*(format_spec->format))
-			|| ft_isspecifier(*(format_spec->format))))
+	if (!(ft_isprecision(*(f_spec->format)) || ft_islength(*(f_spec->format))
+			|| ft_isspecifier(*(f_spec->format))))
 		return (-1);
-	if (ft_isprecision(*(format_spec->format)))
+	if (ft_isprecision(*(f_spec->format)))
 	{
-		if (*(format_spec->format + 1) == '*')
+		if (*(f_spec->format + 1) == '*')
 		{
-			format_spec->precision_flag = '*';
-			(format_spec->format) += 2;
+			f_spec->precision_flag = '*';
+			(f_spec->format) += 2;
 			return (0);
 		}
-		if (ft_isdigit(*(format_spec->format + 1)))
+		if (ft_isdigit(*(f_spec->format + 1)))
 		{
-			format_spec->precision = ft_extract_number((format_spec->format) + 1);
-			(format_spec->format) += ft_count_digits(format_spec->precision,
-					BASE10) + 1;
-			format_spec->precision_flag = '1';
+			f_spec->precision = ft_extract_number((f_spec->format) + 1);
+			(f_spec->format) += ft_count_digits(f_spec->precision, BASE10) + 1;
+			f_spec->precision_flag = '.';
 		}
 		else
 		{
-			format_spec->precision_flag = '0';
-			format_spec->format++;
+			f_spec->precision_flag = '0';
+			f_spec->format++;
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:33 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/05 15:25:53 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/06 13:38:18 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,12 @@ int		ft_init_format_specifier(t_format_specifier *format_specifier,
 // 			int fd,
 // 			t_lettercase lettercase,
 // 			unsigned int base_size);
+ssize_t	ft_putnbr_fd(int n, int fd, unsigned int base);
+ssize_t	ft_putunbr_fd(unsigned int n,
+			int fd,
+			unsigned int base,
+			t_lettercase lettercase);
+ssize_t	ft_putsign_fd(int n, int fd, char flag, char spec);
 
 // Node content related functions
 int		ft_fill_node(t_list **list, char *next, char *substr, va_list args);

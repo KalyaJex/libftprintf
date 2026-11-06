@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 10:48:42 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/05 11:39:30 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/06 12:51:49 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,4 @@ char	*ft_ultoa(unsigned long int ln, unsigned int base, t_lettercase lettercase)
 	}
 	return (str);
 }
+

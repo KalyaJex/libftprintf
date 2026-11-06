@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:04:31 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/05 17:12:34 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/06 13:04:59 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,11 @@ void	ft_free_node_content(void *content)
 void	ft_free_format_specifier(t_format_specifier *format_specifier)
 {
 	if (format_specifier->og_ptr)
+	{
 		free(format_specifier->og_ptr);
+		free(format_specifier->flag);
+		free(format_specifier->length);
+	}
 	free(format_specifier);
 }
 
