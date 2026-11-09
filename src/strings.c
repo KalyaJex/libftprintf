@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:49:06 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/05 14:41:49 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/09 16:12:20 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*ft_extract_subspecifier(char *str, int (*check)(int))
 	index = 0;
 	while (str[index])
 	{
+		if (!check(str[index + 1]))
+			break ;
 		if (index
 			&& (check(str[index]) && check(str[index - 1])))
 			break ;
@@ -53,53 +55,53 @@ char	*ft_extract_subspecifier(char *str, int (*check)(int))
 	return (ft_substr(str, 0, index + 1));
 }
 
-char	*ft_strinsert(char *dest, char *src, unsigned int pos)
-{
-	char	*sub;
-	char	*start;
-	char	*new;
-	char	*inter;
+// char	*ft_strinsert(char *dest, char *src, unsigned int pos)
+// {
+// 	char	*sub;
+// 	char	*start;
+// 	char	*new;
+// 	char	*inter;
 
-	if (pos > ft_strlen(dest))
-		return (NULL);
-	if (pos == 0)
-		return (ft_strjoin(src, dest));
-	sub = ft_substr(dest, pos, ft_strlen(dest) - pos);
-	if (!sub)
-		return (ft_free_all(1, src));
-	start = ft_substr(dest, 0, pos);
-	if (!start)
-		return (ft_free_all(2, sub, src));
-	inter = ft_strjoin(start, src);
-	if (!inter)
-		return (ft_free_all(3, sub, start, src));
-	new = ft_strjoin(inter, sub);
-	if (!new)
-		return (ft_free_all(4, sub, start, inter, src));
-	ft_free_all(4, sub, start, inter, src);
-	return (new);
-}
+// 	if (pos > ft_strlen(dest))
+// 		return (NULL);
+// 	if (pos == 0)
+// 		return (ft_strjoin(src, dest));
+// 	sub = ft_substr(dest, pos, ft_strlen(dest) - pos);
+// 	if (!sub)
+// 		return (ft_free_all(1, src));
+// 	start = ft_substr(dest, 0, pos);
+// 	if (!start)
+// 		return (ft_free_all(2, sub, src));
+// 	inter = ft_strjoin(start, src);
+// 	if (!inter)
+// 		return (ft_free_all(3, sub, start, src));
+// 	new = ft_strjoin(inter, sub);
+// 	if (!new)
+// 		return (ft_free_all(4, sub, start, inter, src));
+// 	ft_free_all(4, sub, start, inter, src);
+// 	return (new);
+// }
 
-char	*strndup(const char *s, size_t n)
-{
-	char	*ptr;
-	char	*temp;
-	size_t		size;
+// char	*strndup(const char *s, size_t n)
+// {
+// 	char	*ptr;
+// 	char	*temp;
+// 	size_t		size;
 
-	size = ft_strlen((char *)s);
-	if (size < n)
-		n = size;
-	ptr = malloc((n + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	temp = ptr;
-	while (0 < n)
-	{
-		*temp = *s;
-		temp++;
-		s++;
-		n--;
-	}
-	*temp = '\0';
-	return (ptr);
-}
+// 	size = ft_strlen((char *)s);
+// 	if (size < n)
+// 		n = size;
+// 	ptr = malloc((n + 1) * sizeof(char));
+// 	if (!ptr)
+// 		return (NULL);
+// 	temp = ptr;
+// 	while (0 < n)
+// 	{
+// 		*temp = *s;
+// 		temp++;
+// 		s++;
+// 		n--;
+// 	}
+// 	*temp = '\0';
+// 	return (ptr);
+// }

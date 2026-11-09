@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:04:31 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/06 13:04:59 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/09 11:57:44 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ void	ft_free_node_content(void *content)
 
 void	ft_free_format_specifier(t_format_specifier *format_specifier)
 {
-	if (format_specifier->og_ptr)
+	if (format_specifier)
 	{
-		free(format_specifier->og_ptr);
-		free(format_specifier->flag);
-		free(format_specifier->length);
+		if (format_specifier->og_ptr)
+			free(format_specifier->og_ptr);
+		if (format_specifier->flag)
+			free(format_specifier->flag);
+		if (format_specifier->length)
+			free(format_specifier->length);
+		free(format_specifier);
 	}
-	free(format_specifier);
 }
 
 int	ft_count_digits(long long int n, unsigned int base)

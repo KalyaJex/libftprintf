@@ -6,7 +6,7 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/11/05 11:05:01 by svannay          ###   ########.fr        #
+#    Updated: 2026/11/09 12:38:26 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,14 +23,19 @@ SRC =	ft_printf.c \
 		src/errors.c \
 		src/format_specifier.c \
 		src/gets.c \
-		src/node.c \
 		src/output.c \
 		src/utils1.c \
 		src/utils2.c \
-		src/convert1.c \
-		src/convert2.c \
-		src/list.c \
-		src/strings.c
+		src/strings.c \
+		src/padding1.c \
+		src/padding2.c \
+		src/padding3.c \
+		src/printf_i_d.c \
+		src/printf_u.c \
+		src/printf_x.c \
+		src/printf_c.c \
+		src/printf_s.c \
+		src/printf_p.c 
 
 OBJ = $(SRC:.c=.o)
 

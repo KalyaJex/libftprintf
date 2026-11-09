@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:08:44 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/05 14:46:29 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/09 16:14:05 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 
 
-int	ft_analyse_format_specifier(t_format_specifier *format_specifier)
+int	ft_analyse_format_specifier(t_format_specifier *f_spec)
 {	
-	if (*(format_specifier->format) == '%')
+	if (*(f_spec->format) == '%')
 	{
-		format_specifier->specifier = '%';
+		f_spec->specifier = '%';
 		return (0);
 	}
-	if(ft_get_flag(format_specifier) < 0)
+	if(ft_get_flag(f_spec) < 0)
 		return (-1);
-	if(ft_get_width(format_specifier) < 0)
+	if(ft_get_width(f_spec) < 0)
 		return (-1);
-	if(ft_get_precision(format_specifier) < 0)
+	if(ft_get_precision(f_spec) < 0)
 		return (-1);
-	if(ft_get_length(format_specifier) < 0)
+	if(ft_get_length(f_spec) < 0)
 		return (-1);
-	if(ft_get_specifier(format_specifier) < 0)
+	if(ft_get_specifier(f_spec) < 0)
 		return (-1);
-	if (!*format_specifier->format)
+	if (!*f_spec->format)
 		return (0);
 	return (-1);
 }
@@ -61,7 +61,7 @@ int	ft_init_format_specifier(t_format_specifier *format_specifier, char* str)
 	error = 0;
 	format_specifier->format = ft_extract_format(str, ft_check_next_spec);
 	format_specifier->og_ptr = format_specifier->format;
-	//printf("%s %s\n", format_specifier->format, str);
+	//printf("[%s] [%s]\n", format_specifier->format, str);
 	format_specifier_l = (int)ft_strlen(format_specifier->format);
 	//printf("%d\n", format_specifier_l);
 	if (!format_specifier->format)

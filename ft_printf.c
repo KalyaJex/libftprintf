@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:29 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/06 16:55:19 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/09 16:01:00 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,302 +410,451 @@ void	ft_print_node(void *content)
 	
 // }
 
-int	ft_isneg(long int n)
-{
-	return (n < 0);
-}
+// int	ft_isneg(long int n)
+// {
+// 	return (n < 0);
+// }
 
-ssize_t	ft_write_pad(int pads, char pad)
-{
-	int		index;
-	ssize_t	nb_char;
-	ssize_t	err;
+// ssize_t	ft_write_pad(int pads, char pad)
+// {
+// 	int		index;
+// 	ssize_t	nb_char;
+// 	ssize_t	err;
 
-	index = 0;
-	while (index < pads)
-	{
-		err = write(1, &pad, 1);
-		if (err < 0)
-			return (-1);
-		nb_char += err;
-	}
-	return (nb_char);
-}
+// 	index = 0;
+// 	while (index < pads)
+// 	{
+// 		err = write(1, &pad, 1);
+// 		if (err < 0)
+// 			return (-1);
+// 		nb_char += err;
+// 	}
+// 	return (nb_char);
+// }
 
-unsigned int	ft_get_preci_l(t_format_specifier *f_spec)
-{
-	if (!f_spec->precision_flag || f_spec->precision_flag == '0')
-		return (0);
-	return (f_spec->precision);
-}
+// unsigned int	ft_get_preci_l(t_format_specifier *f_spec)
+// {
+// 	if (!f_spec->precision_flag || f_spec->precision_flag == '0')
+// 		return (0);
+// 	return (f_spec->precision);
+// }
 
-ssize_t	ft_left_padding(t_format_specifier *f_spec, long int n, unsigned int base)
-{
-	int		nb_digit;
-	ssize_t	err;
-	char	pad;
+// ssize_t	ft_left_padding(t_format_specifier *f_spec, long int n, unsigned int base)
+// {
+// 	int		nb_digit;
+// 	ssize_t	err;
+// 	char	pad;
 
-	nb_digit = ft_count_digits(n, base);
-	if (ft_strcontain(f_spec->flag, '-'))
-		return (0);
-	if (!ft_isneg(n) && ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
-		pad = '0';
-	else
-		pad = ' ';
-	if (f_spec->precision_flag == '0' && n == 0)
-		err = ft_write_pad(f_spec->width, pad);
-	else if (ft_isneg(n) && !f_spec->precision_flag && nb_digit < f_spec->width)
-		err = ft_write_pad(f_spec->width - nb_digit - 1, pad);
-	else if (!f_spec->precision_flag && nb_digit < f_spec->width)
-		err = ft_write_pad(f_spec->width - nb_digit, pad);
-	else if (ft_isneg(n) && ft_get_preci_l(f_spec) < f_spec->width)
-		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec) - 1, pad);
-	else if (ft_get_preci_l(f_spec) < f_spec->width)
-		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec), pad);
-	return (err);
-}
+// 	nb_digit = ft_count_digits(n, base);
+// 	if (ft_strcontain(f_spec->flag, '-'))
+// 		return (0);
+// 	if (!ft_isneg(n) && ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
+// 		pad = '0';
+// 	else
+// 		pad = ' ';
+// 	if (f_spec->precision_flag == '0' && n == 0)
+// 		err = ft_write_pad(f_spec->width, pad);
+// 	else if (ft_isneg(n) && !f_spec->precision_flag && nb_digit < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - nb_digit - 1, pad);
+// 	else if (!f_spec->precision_flag && nb_digit < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - nb_digit, pad);
+// 	else if (ft_isneg(n) && ft_get_preci_l(f_spec) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec) - 1, pad);
+// 	else if (ft_get_preci_l(f_spec) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec), pad);
+// 	return (err);
+// }
 
-ssize_t	ft_left_upadding(t_format_specifier *f_spec, unsigned long int n, unsigned int base)
-{
-	int		nb_digit;
-	ssize_t	err;
-	char	pad;
+// ssize_t	ft_left_upadding(t_format_specifier *f_spec, unsigned long int n, unsigned int base)
+// {
+// 	int		nb_digit;
+// 	ssize_t	err;
+// 	char	pad;
 
-	nb_digit = ft_count_udigits(n, base);
-	if (ft_strcontain(f_spec->flag, '-'))
-		return (0);
-	if (ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
-		pad = '0';
-	else
-		pad = ' ';
-	if (f_spec->precision_flag == '0' && n == 0)
-		err = ft_write_pad(f_spec->width, pad);
-	else if (!f_spec->precision_flag && nb_digit < f_spec->width)
-		err = ft_write_pad(f_spec->width - nb_digit, pad);
-	else if (ft_get_preci_l(f_spec) < f_spec->width)
-		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec), pad);
-	return (err);
-}
+// 	nb_digit = ft_count_udigits(n, base);
+// 	if (ft_strcontain(f_spec->flag, '-'))
+// 		return (0);
+// 	if (ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
+// 		pad = '0';
+// 	else
+// 		pad = ' ';
+// 	if (f_spec->precision_flag == '0' && n == 0)
+// 		err = ft_write_pad(f_spec->width, pad);
+// 	else if (!f_spec->precision_flag && nb_digit < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - nb_digit, pad);
+// 	else if (ft_get_preci_l(f_spec) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec), pad);
+// 	return (err);
+// }
 
-ssize_t	ft_left_xpadding(t_format_specifier *f_spec, unsigned long long int n, unsigned int base)
-{
-	int		nb_digit;
-	ssize_t	err;
-	char	pad;
-	int		need_prefix;
+// ssize_t	ft_left_xpadding(t_format_specifier *f_spec, unsigned long long int n, unsigned int base)
+// {
+// 	int		nb_digit;
+// 	ssize_t	err;
+// 	char	pad;
+// 	int		need_prefix;
 
-	need_prefix = ft_strcontain(f_spec->flag, '#');
-	nb_digit = ft_count_udigits(n, base);
-	if (ft_strcontain(f_spec->flag, '-'))
-		return (0);
-	if (ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
-		pad = '0';
-	else
-		pad = ' ';
-	if (f_spec->precision_flag == '0' && n == 0)
-		err = ft_write_pad(f_spec->width, pad);
-	else if (need_prefix && !f_spec->precision_flag && (nb_digit + 2) < f_spec->width)
-		err = ft_write_pad(f_spec->width - nb_digit - 2, pad);
-	else if (!f_spec->precision_flag && nb_digit < f_spec->width)
-		err = ft_write_pad(f_spec->width - nb_digit, pad);
-	else if (need_prefix && ft_get_preci_l(f_spec) < f_spec->width)
-		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec) - 2, pad);
-	else if (ft_get_preci_l(f_spec) < f_spec->width)
-		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec), pad);
-	return (err);
-}
+// 	need_prefix = ft_strcontain(f_spec->flag, '#');
+// 	nb_digit = ft_count_udigits(n, base);
+// 	if (ft_strcontain(f_spec->flag, '-'))
+// 		return (0);
+// 	if (ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
+// 		pad = '0';
+// 	else
+// 		pad = ' ';
+// 	if (f_spec->precision_flag == '0' && n == 0)
+// 		err = ft_write_pad(f_spec->width, pad);
+// 	else if (need_prefix && !f_spec->precision_flag && (nb_digit + 2) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - nb_digit - 2, pad);
+// 	else if (!f_spec->precision_flag && nb_digit < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - nb_digit, pad);
+// 	else if (need_prefix && ft_get_preci_l(f_spec) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec) - 2, pad);
+// 	else if (ft_get_preci_l(f_spec) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec), pad);
+// 	return (err);
+// }
 
-ssize_t	ft_zero_padding(t_format_specifier *f_spec, long int n, unsigned int base)
-{
-	ssize_t	err;
-	int		nb_digit;
+// ssize_t	ft_left_ppadding(t_format_specifier *f_spec, uintptr_t n, unsigned int base)
+// {
+// 	int		nb_digit;
+// 	ssize_t	err;
+// 	char	pad;
+// 	int		need_prefix;
 
-	err = 0;
-	nb_digit = ft_count_digits(n, base);
-	if (ft_isneg(n) && f_spec->precision)
-		err = ft_write_pad(f_spec->precision - nb_digit + 1, '0');
-	else if (f_spec->precision)
-		err = ft_write_pad(f_spec->precision - nb_digit, '0');
-	else if (ft_isneg(n) && f_spec->width)
-		err = ft_write_pad(f_spec->width - nb_digit, '0');
-	return (err);
-}
+// 	need_prefix = ft_strcontain(f_spec->flag, '#');
+// 	nb_digit = ft_count_udigits(n, base);
+// 	if (ft_strcontain(f_spec->flag, '-') || ft_strcontain(f_spec->flag, '0'))
+// 		return (0);
+// 	if (n == 0 && f_spec->width > 5)
+// 		err = ft_write_pad(f_spec->width - 5, ' ');
+// 	else if (!f_spec->precision_flag && (nb_digit + 2) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - nb_digit - 2, ' ');
+// 	else if (ft_get_preci_l(f_spec) < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec) - 2, ' ');
+// 	return (err);
+// }
 
-ssize_t	ft_zero_upadding(t_format_specifier *f_spec, long int n, unsigned int base)
-{
-	ssize_t	err;
-	int		nb_digit;
+// ssize_t	ft_zero_padding(t_format_specifier *f_spec, long int n, unsigned int base)
+// {
+// 	ssize_t	err;
+// 	int		nb_digit;
 
-	err = 0;
-	nb_digit = ft_count_udigits(n, base);
-	if (f_spec->precision)
-		err = ft_write_pad(f_spec->precision - nb_digit, '0');
-	return (err);
-}
+// 	err = 0;
+// 	nb_digit = ft_count_digits(n, base);
+// 	if (ft_isneg(n) && f_spec->precision)
+// 		err = ft_write_pad(f_spec->precision - nb_digit + 1, '0');
+// 	else if (f_spec->precision)
+// 		err = ft_write_pad(f_spec->precision - nb_digit, '0');
+// 	else if (ft_isneg(n) && f_spec->width)
+// 		err = ft_write_pad(f_spec->width - nb_digit, '0');
+// 	return (err);
+// }
 
-ssize_t	ft_right_padding(t_format_specifier *f_spec, ssize_t nb_char)
-{
-	ssize_t	err;
+// ssize_t	ft_zero_upadding(t_format_specifier *f_spec, long int n, unsigned int base)
+// {
+// 	ssize_t	err;
+// 	int		nb_digit;
 
-	err = 0;
-	if (ft_strcontain(f_spec->flag, '-'))
-		err = ft_write_pad(f_spec->width - nb_char, ' ');
-	return (err);
-}
+// 	err = 0;
+// 	nb_digit = ft_count_udigits(n, base);
+// 	if (f_spec->precision)
+// 		err = ft_write_pad(f_spec->precision - nb_digit, '0');
+// 	return (err);
+// }
 
-ssize_t	ft_output_i_d(t_format_specifier *f_spec, va_list args)
-{
-	long int	n;
-	ssize_t		nb_char;
-	ssize_t		err;
+// ssize_t	ft_zero_ppadding(t_format_specifier *f_spec, uintptr_t n, unsigned int base)
+// {
+// 	ssize_t	err;
+// 	int		nb_digit;
+
+// 	err = 0;
+// 	nb_digit = ft_count_udigits(n, base);
+// 	if (f_spec->precision)
+// 		err = ft_write_pad(f_spec->precision - nb_digit, '0');
+// 	if (f_spec->width && ft_strcontain(f_spec->flag, '0'))
+// 		err = ft_write_pad(f_spec->width - nb_digit - 2, '0');
+// 	return (err);
+// }
+
+// ssize_t	ft_left_cpadding(t_format_specifier *f_spec)
+// {
+// 	ssize_t	err;
+
+// 	if (ft_strcontain(f_spec->flag, '-'))
+// 		return (0);
+// 	err = ft_write_pad(f_spec->width - 1, ' ');
+// 	return (err);
+// }
+
+// ssize_t	ft_left_spadding(t_format_specifier *f_spec, char *s)
+// {
+// 	size_t	slen;
+// 	ssize_t	err;
+
+// 	slen = ft_strlen(s);
+// 	if (ft_strcontain(f_spec->flag, '-'))
+// 		return (0);
+// 	if (f_spec->precision_flag == '0')
+// 		err = ft_write_pad(f_spec->width, ' ');
+// 	else if (!f_spec->precision_flag && slen < f_spec->width)
+// 		err = ft_write_pad(f_spec->width - slen, ' ');
+// 	else if (ft_get_preci_l(f_spec) < slen)
+// 		err = ft_write_pad(f_spec->width - ft_get_preci_l(f_spec), ' ');
+// 	return (err);
+// }
+
+// ssize_t	ft_right_padding(t_format_specifier *f_spec, ssize_t nb_char)
+// {
+// 	ssize_t	err;
+
+// 	err = 0;
+// 	if (f_spec->precision > f_spec->width)
+// 		return (0);
+// 	if (ft_strcontain(f_spec->flag, '-') && f_spec->specifier == 'p')
+// 		err = ft_write_pad(f_spec->width - nb_char, ' ');
+// 	if (ft_strcontain(f_spec->flag, '-'))
+// 		err = ft_write_pad(f_spec->width - nb_char, ' ');
+// 	return (err);
+// }
+
+// ssize_t	ft_output_i_d(t_format_specifier *f_spec, va_list args)
+// {
+// 	long int	n;
+// 	ssize_t		nb_char;
+// 	ssize_t		err;
 	
-	nb_char = 0;	
-	n = (long int)va_arg(args, long int);
-	if (ft_isneg(err = ft_left_padding(f_spec, n, BASE10)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_putsign_fd(n, 1, f_spec->flag, f_spec->specifier)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_zero_padding(f_spec, n, BASE10)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_putnbr_fd(n, 1, BASE10)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
-		return (-1);
-	nb_char += err;
-	return (nb_char);
-}
+// 	nb_char = 0;	
+// 	n = (long int)va_arg(args, long int);
+// 	if (ft_isneg(err = ft_left_padding(f_spec, n, BASE10)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_putsign_fd(n, 1, f_spec->flag, f_spec->specifier)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_zero_padding(f_spec, n, BASE10)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_putnbr_fd(n, 1, BASE10)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
+// 		return (-1);
+// 	nb_char += err;
+// 	return (nb_char);
+// }
 
-ssize_t	ft_output_u(t_format_specifier *f_spec, va_list args)
-{
-	long int	n;
-	ssize_t		nb_char;
-	ssize_t		err;
+// ssize_t	ft_output_u(t_format_specifier *f_spec, va_list args)
+// {
+// 	long int	n;
+// 	ssize_t		nb_char;
+// 	ssize_t		err;
 	
-	nb_char = 0;	
-	n = (long int)va_arg(args, long int);
-	if (ft_isneg(err = ft_left_upadding(f_spec, n, BASE10)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_zero_upadding(f_spec, n, BASE10)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_putunbr_fd(n, 1, BASE10, LOWERCASE)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
-		return (-1);
-	nb_char += err;
-	return (nb_char);
-}
+// 	nb_char = 0;	
+// 	n = (long int)va_arg(args, long int);
+// 	if (ft_isneg(err = ft_left_upadding(f_spec, n, BASE10)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_zero_upadding(f_spec, n, BASE10)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_putunbr_fd(n, 1, BASE10, LOWERCASE)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
+// 		return (-1);
+// 	nb_char += err;
+// 	return (nb_char);
+// }
 
-ssize_t	ft_output_x(t_format_specifier *f_spec, va_list args)
-{
-	long int	n;
-	ssize_t		nb_char;
-	ssize_t		err;
+// ssize_t	ft_output_x(t_format_specifier *f_spec, va_list args)
+// {
+// 	long int	n;
+// 	ssize_t		nb_char;
+// 	ssize_t		err;
 	
-	nb_char = 0;	
-	n = (long int)va_arg(args, long int);
-	if (ft_isneg(err = ft_left_xpadding(f_spec, n, BASE16)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_putsign_fd(n, 1, f_spec->flag, f_spec->specifier)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_zero_upadding(f_spec, n, BASE16)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_putunbr_fd(n, 1, BASE16, LOWERCASE)))
-		return (-1);
-	nb_char += err;
-	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
-		return (-1);
-	nb_char += err;
-	return (nb_char);
-}
+// 	nb_char = 0;	
+// 	n = (long int)va_arg(args, long int);
+// 	if (ft_isneg(err = ft_left_xpadding(f_spec, n, BASE16)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_putsign_fd(n, 1, f_spec->flag, f_spec->specifier)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_zero_upadding(f_spec, n, BASE16)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_putunbr_fd(n, 1, BASE16, LOWERCASE)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
+// 		return (-1);
+// 	nb_char += err;
+// 	return (nb_char);
+// }
 
-void	ft_fetch_width(t_format_specifier *f_spec, va_list args)
-{
-	if (f_spec->width_flag == '*')
-		f_spec->width = va_arg(args, int);
-}
+// ssize_t ft_output_c(t_format_specifier *f_spec, va_list args)
+// {
+// 	char	c;
+// 	ssize_t	nb_char;
+// 	ssize_t	err;
 
-void	ft_fetch_preci(t_format_specifier *f_spec, va_list args)
-{
-	if (f_spec->precision_flag == '*')
-		f_spec->precision = va_arg(args, int);
-}
+// 	c = (unsigned char)va_arg(args, int);
+// 	nb_char = 0;
+// 	if (ft_isneg(err = ft_left_cpadding(f_spec)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_putchar_fd(c, 1)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_right_padding(f_spec, 1)))
+// 		return (-1);
+// 	nb_char += err;
+// 	return (nb_char);
+// }
 
-ssize_t	ft_output(t_format_specifier *f_spec, va_list args)
-{
-	ssize_t		err;
+// ft_putnstr_fd(char *s, unsigned int n, int fd)
+// {
+// 	unsigned int	nb_char;
+
+// 	nb_char = 0;
+// 	if (!s)
+// 		return (-1);
+// 	while (*s && 0 < n)
+// 	{
+// 		if (ft_putchar_fd(*s, fd) < 0)
+// 			return (-1);
+// 		nb_char++;
+// 		s++;
+// 		n--;
+// 	}
+// 	return (nb_char);
+// }
+
+// ssize_t ft_output_s(t_format_specifier *f_spec, va_list args)
+// {
+// 	char		*s;
+// 	ssize_t		nb_char;
+// 	ssize_t		err;
+// 	long int	n;
+
+// 	s = (char *)va_arg(args, char *);
+// 	nb_char = 0;	
+// 	if (ft_isneg(err = ft_left_spadding(f_spec, s)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (f_spec->precision_flag == '0' || f_spec->precision > 0)
+// 	{
+// 		if (ft_isneg(err = ft_putnstr_fd(s, f_spec->precision)))
+// 			return (-1);
+// 	}
+// 	else
+// 	{
+// 		if (ft_isneg(err = ft_putstr_fd(s))) // modify putstr to get nb of char written
+// 			return (-1);
+// 	}
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
+// 		return (-1);
+// 	nb_char += err;
+// 	return (nb_char);
+// }
+
+// ssize_t	ft_output_p(t_format_specifier *f_spec, va_list args)
+// {
+// 	uintptr_t	p;
+// 	ssize_t		nb_char;
+// 	ssize_t		err;
 	
-	ft_fetch_width(f_spec, args);
-	ft_fetch_preci(f_spec, args);
-	if (f_spec->specifier == 'i' || f_spec->specifier == 'd')
-		err = ft_output_i_d(f_spec, args);
-	if (f_spec->specifier == 'u')
-		err = ft_output_i_d(f_spec, args);
-	if (f_spec->specifier == 'x')
-		err = ft_output_i_d(f_spec, args);
-	return (err);
-}
+// 	nb_char = 0;	
+// 	p = (uintptr_t)va_arg(args, void *);
+// 	if (ft_isneg(err = ft_left_ppadding(f_spec, p, BASE16)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_zero_ppadding(f_spec, p, BASE16)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_putunbr_fd(p, 1, BASE16, LOWERCASE)))
+// 		return (-1);
+// 	nb_char += err;
+// 	if (ft_isneg(err = ft_right_padding(f_spec, nb_char)))
+// 		return (-1);
+// 	nb_char += err;
+// 	return (nb_char);
+// }
 
-int	ft_process_str(char *str, va_list args)
-{
-	int	nb_char;
-	int	error;
-	t_format_specifier	*format_specifier;
+// void	ft_fetch_width(t_format_specifier *f_spec, va_list args)
+// {
+// 	if (f_spec->width_flag == '*')
+// 		f_spec->width = va_arg(args, int);
+// }
+
+// void	ft_fetch_preci(t_format_specifier *f_spec, va_list args)
+// {
+// 	if (f_spec->precision_flag == '*')
+// 		f_spec->precision = va_arg(args, int);
+// }
+
+// ssize_t	ft_output(t_format_specifier *f_spec, va_list args)
+// {
+// 	ssize_t		err;
 	
+// 	ft_fetch_width(f_spec, args);
+// 	ft_fetch_preci(f_spec, args);
+// 	if (f_spec->specifier == 'i' || f_spec->specifier == 'd')
+// 		err = ft_output_i_d(f_spec, args);
+// 	if (f_spec->specifier == 'u')
+// 		err = ft_output_i_d(f_spec, args);
+// 	if (f_spec->specifier == 'x')
+// 		err = ft_output_i_d(f_spec, args);
+// 	return (err);
+// }
+
+static int	ft_process_str(char *str, va_list args)
+{
+	int					nb_char;
+	int					err_parse;
+	ssize_t				err_writing;
+	t_format_specifier	*f_spec;
+
+	nb_char = 0;
 	while (*str)
 	{
+		err_parse = 0;
 		if (*str == '%')
 		{
-			format_specifier = (t_format_specifier *)malloc(sizeof(t_format_specifier));
-			if (!format_specifier)
+			f_spec = (t_format_specifier *)malloc(sizeof(t_format_specifier));
+			if (!f_spec)
 				return (-1);
-			error = ft_init_format_specifier(format_specifier, str);
-			if (error < 0)
-				return (ft_error_format_specifier(format_specifier));
-			
-			
+			if (ft_isneg(err_parse = ft_init_format_specifier(f_spec, str + 1)))
+				return (ft_error_format_specifier(f_spec));
+			//printf("[%d]", f_spec->is_gibberish);
+			if (ft_isneg(err_writing = ft_output(f_spec, args)))
+				return (ft_error_format_specifier(f_spec));
+			nb_char += err_writing;
+			ft_free_format_specifier(f_spec);
 		}
-		
-		str++;
+		else
+		{
+			if (ft_isneg(err_writing =  ft_putchar_fd(*str, 1)))
+				return (-1);
+			nb_char += err_writing;
+		}
+		str += err_parse + 1;
 	}
+	return (nb_char);
 }
 
 
 int	ft_printf(const char *s, ...)
 {
 	va_list	args;
-	t_list	*list;
-	t_list	*temp;
-	size_t	size;
+	int		size;
 
-	list = NULL;
+	size = 0;
 	va_start(args, s);
-	list = ft_process_args(args, (char *)s);
+	size = ft_process_str((char *)s, args);
 	va_end(args);
-	if (!list)
-		return (-1);
-	ft_lstiter(list, ft_print_node);
-	temp = list;
-	while (temp)
-	{
-		if (((t_node_contents *)temp->content)->write_error)
-		{
-			ft_lstclear(&list, ft_free_node_content);
-			return (-1);
-		}
-		temp = temp->next;
-	}
-	size = ft_lstsum(list, ft_get_strlen);
-	ft_lstclear(&list, ft_free_node_content);
 	return (size);
 }
 
