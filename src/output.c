@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/22 11:19:47 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 15:40:20 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 14:05:23 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ ssize_t	ft_putsign_fd(int n, int fd, char *flag, char spec)
 	}
 	else if (spec == 'p')
 		error = write(fd, "0x", 2);
-	else if (ft_strcontain(flag, ' ') && n > 0)
+	else if (ft_strcontain(flag, ' ') && n >= 0)
 		error = write(fd, " ", 1);
 	else if (ft_strcontain(flag, '+') && n > 0)
 		error = write(fd, "+", 1);

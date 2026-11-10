@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:11:45 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 16:22:46 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 14:48:38 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ ssize_t	ft_left_padding_i_d(t_format_specifier *f_spec, long int n, unsigned int
 	char			pad;
 
 	err = 0;
-	nb_digit = ft_count_digits(n, base);
-	if (ft_strcontain(f_spec->flag, '-'))
+	nb_digit = ft_count_digit_space(n, base, f_spec);
+	if (ft_strcontain(f_spec->flag, '-') || (ft_isneg(n) && ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag) || (ft_strcontain(f_spec->flag, ' ') && ft_strcontain(f_spec->flag, '0')))
 		return (0);
 	if (!ft_isneg(n) && ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
 		pad = '0';
@@ -47,8 +47,8 @@ ssize_t	ft_left_padding_i_d(t_format_specifier *f_spec, long int n, unsigned int
 		pad = ' ';
 	if (f_spec->precision_flag == '0' && n == 0)
 		err = ft_write_pad(f_spec->width, pad);
-	else if (ft_isneg(n) && !f_spec->precision_flag && nb_digit < f_spec->width)
-		err = ft_write_pad(f_spec->width - nb_digit, pad);
+	// else if (ft_strcontain(f_spec->flag, ' ') && !f_spec->precision_flag && nb_digit < f_spec->width)
+	// 	err = ft_write_pad(f_spec->width - nb_digit - 1, pad);
 	else if (!f_spec->precision_flag && nb_digit < f_spec->width)
 		err = ft_write_pad(f_spec->width - nb_digit, pad);
 	else if (ft_isneg(n) && ft_get_preci_l(f_spec) < f_spec->width)
@@ -91,7 +91,7 @@ ssize_t	ft_left_padding_x(t_format_specifier *f_spec, unsigned long long int n, 
 	err = 0;
 	need_prefix = ft_strcontain(f_spec->flag, '#');
 	nb_digit = ft_count_udigits(n, base);
-	if (ft_strcontain(f_spec->flag, '-'))
+	if (ft_strcontain(f_spec->flag, '-') || (ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag))
 		return (0);
 	if (ft_strcontain(f_spec->flag, '0') && !f_spec->precision_flag)
 		pad = '0';

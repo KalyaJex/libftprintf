@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:07:19 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 15:10:30 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 11:30:26 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,21 @@ static ssize_t	ft_before(t_format_specifier *f_spec, long int n)
 	if (ft_isneg(err))
 		return (-1);
 	nb_char += err;
-	err = ft_zero_padding(f_spec, n, BASE10);
+	err = ft_zero_padding_i_d(f_spec, n, BASE10);
 	if (ft_isneg(err))
 		return (-1);
 	nb_char += err;
 	return (nb_char);
+}
+
+static int	ft_check_zero_precision(t_format_specifier *f_spec, int n)
+{
+	if (n == 0)
+	{
+		if (f_spec->precision_flag == '0' || (f_spec->precision_flag == '.' && f_spec->precision == 0))
+			return (1);
+	}
+	return (0);
 }
 
 ssize_t	ft_output_i_d(t_format_specifier *f_spec, va_list args)
@@ -45,10 +55,13 @@ ssize_t	ft_output_i_d(t_format_specifier *f_spec, va_list args)
 	if (ft_isneg(err))
 		return (-1);
 	nb_char += err;
-	err = ft_putnbr_base_fd(n, 1, BASE10);
-	if (ft_isneg(err))
-		return (-1);
-	nb_char += err;
+	if (!ft_check_zero_precision(f_spec, n))
+	{
+		err = ft_putnbr_base_fd(n, 1, BASE10);
+		if (ft_isneg(err))
+			return (-1);
+		nb_char += err;
+	}
 	err = ft_right_padding(f_spec, nb_char);
 	if (ft_isneg(err))
 		return (-1);

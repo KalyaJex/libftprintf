@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:13:45 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 16:17:46 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 14:53:17 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,21 @@ ssize_t	ft_left_padding_s(t_format_specifier *f_spec, char *s)
 	return (err);
 }
 
-ssize_t	ft_zero_padding(t_format_specifier *f_spec, long int n, unsigned int base)
+ssize_t	ft_zero_padding_i_d(t_format_specifier *f_spec, long int n, unsigned int base)
 {
 	ssize_t	err;
 	int		nb_digit;
 
 	err = 0;
-	nb_digit = ft_count_digits(n, base);
+	nb_digit = ft_count_digit_space(n, base, f_spec);
 	if (ft_isneg(n) && f_spec->precision)
 		err = ft_write_pad(f_spec->precision - nb_digit + 1, '0');
 	else if (f_spec->precision)
 		err = ft_write_pad(f_spec->precision - nb_digit, '0');
-	// else if (ft_isneg(n) && f_spec->width)
-	// 	err = ft_write_pad(f_spec->width - nb_digit, '0');
+	else if (ft_isneg(n) && ft_strcontain(f_spec->flag, '0') && !ft_strcontain(f_spec->flag, '-') && f_spec->width)
+		err = ft_write_pad(f_spec->width - nb_digit, '0');
+	else if (ft_strcontain(f_spec->flag, ' ') && f_spec->width && n >= 0)
+		err = ft_write_pad(f_spec->width - nb_digit, '0');
 	return (err);
 }
 
@@ -65,6 +67,8 @@ ssize_t	ft_zero_padding_u(t_format_specifier *f_spec, unsigned int n, unsigned i
 	nb_digit = ft_count_udigits(n, base);
 	if (f_spec->precision)
 		err = ft_write_pad(f_spec->precision - nb_digit, '0');
+	else if (f_spec->width && ft_strcontain(f_spec->flag, '0') && ft_strcontain(f_spec->flag, '#'))
+		err = ft_write_pad(f_spec->width - nb_digit - 2, '0');
 	return (err);
 }
 
@@ -77,7 +81,7 @@ ssize_t	ft_zero_padding_p(t_format_specifier *f_spec, uintptr_t n, unsigned int 
 	nb_digit = ft_count_udigits(n, base);
 	if (f_spec->precision)
 		err = ft_write_pad(f_spec->precision - nb_digit, '0');
-	if (f_spec->width && ft_strcontain(f_spec->flag, '0'))
+	else if (f_spec->width && ft_strcontain(f_spec->flag, '0'))
 		err = ft_write_pad(f_spec->width - nb_digit - 2, '0');
 	return (err);
 }

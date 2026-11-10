@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 14:47:33 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 15:33:18 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 14:49:35 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ ssize_t			ft_left_padding_p(t_format_specifier *f_spec,
 					unsigned int base);
 ssize_t			ft_left_padding_c(t_format_specifier *f_spec);
 ssize_t			ft_left_padding_s(t_format_specifier *f_spec, char *s);
-ssize_t			ft_zero_padding(t_format_specifier *f_spec,
+ssize_t			ft_zero_padding_i_d(t_format_specifier *f_spec,
 					long int n,
 					unsigned int base);
 ssize_t			ft_zero_padding_u(t_format_specifier *f_spec,
@@ -144,6 +144,7 @@ uintptr_t		ft_pow_ptr(uintptr_t n, unsigned int pow);
 int				ft_isneg(long int n);
 unsigned int	ft_get_preci_l(t_format_specifier *f_spec);
 void			ft_fetch_width_preci(t_format_specifier *f_spec, va_list args);
+int				ft_count_digit_space(long long int n, unsigned int base, t_format_specifier *f_spec);
 
 // Specifier related functions
 int				ft_analyse_format_specifier(t_format_specifier *f_spec);

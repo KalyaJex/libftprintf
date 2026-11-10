@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:00:20 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 14:32:17 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 11:52:25 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,20 @@ static ssize_t	ft_putnstr_fd(char *s, unsigned int n, int fd)
 	return (nb_char);
 }
 
+static int	ft_check_precision(t_format_specifier *f_spec)
+{
+	if (f_spec->precision_flag == '0' || ((f_spec->precision_flag == '.' || f_spec->precision_flag == '*') && f_spec->precision >= 0))
+		return (1);
+	return (0);
+}
+
+
 static ssize_t	ft_write_str(t_format_specifier *f_spec, char *s)
 {
 	ssize_t		err;
 
 	err = 0;
-	if (f_spec->precision_flag == '0' || f_spec->precision > 0)
+	if (ft_check_precision(f_spec))
 	{
 		err = ft_putnstr_fd(s, f_spec->precision, 1);
 		if (ft_isneg(err))

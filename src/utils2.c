@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 11:01:23 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 15:15:41 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 14:48:48 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,11 @@ void	ft_fetch_width_preci(t_format_specifier *f_spec, va_list args)
 		f_spec->width = va_arg(args, int);
 	if (f_spec->precision_flag == '*')
 		f_spec->precision = va_arg(args, int);
+}
+
+int	ft_count_digit_space(long long int n, unsigned int base, t_format_specifier *f_spec)
+{
+	if (n >= 0 && ft_strcontain(f_spec->flag, ' '))
+		return (ft_count_digits(n, base) + 1);
+	return(ft_count_digits(n, base));
 }

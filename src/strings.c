@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/02 13:49:06 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 16:12:20 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/10 10:54:38 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_extract_subspecifier(char *str, int (*check)(int))
 		if (!check(str[index + 1]))
 			break ;
 		if (index
-			&& (check(str[index]) && check(str[index - 1])))
+			&& !(check(str[index]) && check(str[index - 1])))
 			break ;
 		index++;
 	}

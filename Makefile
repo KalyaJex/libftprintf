@@ -6,7 +6,7 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/11/09 12:38:26 by svannay          ###   ########.fr        #
+#    Updated: 2026/11/10 12:47:15 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,8 @@ CPPFLAGS = -I$(INC_DIR)
 NAME = libftprintf.a
 
 all: $(NAME)
+
+bonus: all
 
 $(NAME): $(OBJ)
 	$(MAKE) -C $(LIBFT)
