@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 11:01:23 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/16 14:57:34 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/17 16:08:24 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	ft_count_udigits(unsigned long long int n, unsigned int base)
 	return (count + is_negative);
 }
 
-unsigned int ft_pow(unsigned int n, unsigned int pow)
+unsigned int	ft_pow(unsigned int n, unsigned int pow)
 {
-	uintptr_t total;
-	
+	uintptr_t	total;
+
 	total = 1;
 	if (pow == 0)
 		return (1);
@@ -46,10 +46,10 @@ unsigned int ft_pow(unsigned int n, unsigned int pow)
 	return (total);
 }
 
-uintptr_t ft_pow_ptr(uintptr_t n, unsigned int pow)
+uintptr_t	ft_pow_ptr(uintptr_t n, unsigned int pow)
 {
-	uintptr_t total;
-	
+	uintptr_t	total;
+
 	total = 1;
 	if (pow == 0)
 		return (1);
@@ -73,19 +73,4 @@ unsigned int	ft_get_preci_l(t_format_specifier *f_spec)
 	if (!f_spec->precision_flag || f_spec->precision_flag == '0')
 		return (0);
 	return (f_spec->precision);
-}
-
-void	ft_fetch_width_preci(t_format_specifier *f_spec, va_list args)
-{
-	if (f_spec->width_flag == '*')
-		f_spec->width = va_arg(args, int);
-	if (f_spec->precision_flag == '*')
-		f_spec->precision = va_arg(args, int);
-}
-
-int	ft_count_digit_space(long long int n, unsigned int base, t_format_specifier *f_spec)
-{
-	if (n >= 0 && ft_strcontain(f_spec->flag, ' '))
-		return (ft_count_digits(n, base) + 1);
-	return(ft_count_digits(n, base));
 }

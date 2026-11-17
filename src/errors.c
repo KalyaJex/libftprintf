@@ -6,14 +6,15 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:15:07 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/09 12:12:59 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/17 16:15:05 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int	ft_error_format_specifier(t_format_specifier *format_specifier)
+void	ft_error_format_specifier(t_format_specifier *format_specifier,
+			t_char_count *char_count)
 {
-	ft_free_format_specifier(format_specifier);
-	return (-1);
+	char_count->error = -1;
+	ft_free_format_spec(format_specifier);
 }

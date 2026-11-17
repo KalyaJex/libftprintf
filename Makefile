@@ -6,7 +6,7 @@
 #    By: svannay <svannay@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/06 09:45:54 by svannay           #+#    #+#              #
-#    Updated: 2026/11/10 12:47:15 by svannay          ###   ########.fr        #
+#    Updated: 2026/11/17 16:05:40 by svannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,12 @@ SRC =	ft_printf.c \
 		src/errors.c \
 		src/format_specifier.c \
 		src/gets.c \
-		src/output.c \
+		src/output1.c \
+		src/output2.c \
 		src/utils1.c \
 		src/utils2.c \
+		src/utils3.c \
 		src/strings.c \
-		src/padding1.c \
-		src/padding2.c \
-		src/padding3.c \
 		src/printf_i_d.c \
 		src/printf_u.c \
 		src/printf_x.c \

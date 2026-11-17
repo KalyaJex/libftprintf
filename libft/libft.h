@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/06 15:56:51 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/05 15:07:53 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/17 16:07:05 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_char_count
+{
+	ssize_t			nb;
+	int				error;
+}					t_char_count;
 
 int				ft_isalpha(int c);
 int				ft_isdigit(int c);
@@ -51,10 +57,10 @@ char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void			ft_striteri(char *s, void (*f)(unsigned int, char*));
-ssize_t			ft_putchar_fd(char c, int fd);
-ssize_t			ft_putstr_fd(char *s, int fd);
-ssize_t			ft_putendl_fd(char *s, int fd);
-ssize_t			ft_putnbr_fd(int n, int fd);
+t_char_count	*ft_putchar_fd(char c, int fd, t_char_count *char_count);
+t_char_count	*ft_putstr_fd(char *s, int fd, t_char_count *char_count);
+t_char_count	*ft_putendl_fd(char *s, int fd, t_char_count *char_count);
+t_char_count	*ft_putnbr_fd(int n, int fd, t_char_count *char_count);
 t_list			*ft_lstnew(void *content);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 unsigned int	ft_lstsize(t_list *lst);

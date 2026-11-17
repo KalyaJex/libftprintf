@@ -6,7 +6,7 @@
 /*   By: svannay <svannay@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 11:04:31 by svannay           #+#    #+#             */
-/*   Updated: 2026/11/10 14:35:25 by svannay          ###   ########.fr       */
+/*   Updated: 2026/11/17 16:12:02 by svannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,7 @@ char	*ft_getbase(t_lettercase lettercase)
 		return (lower_base);
 }
 
-void	ft_free_node_content(void *content)
-{
-	if (((t_node_contents *)content)->format_specifier)
-	{
-		if (((t_node_contents *)content)->format_specifier->specifier == 's')
-			free(((t_node_contents *)content)->print_value.s);
-		if (((t_node_contents *)content)->format_specifier->flag)
-			free(((t_node_contents *)content)->format_specifier->flag);
-		if (((t_node_contents *)content)->format_specifier->length)
-			free(((t_node_contents *)content)->format_specifier->length);
-		ft_free_format_specifier(((t_node_contents *)content)->format_specifier);
-	}
-	if (((t_node_contents *)content)->substr)
-		free(((t_node_contents *)content)->substr);
-	if (((t_node_contents *)content)->str_to_print)
-		free(((t_node_contents *)content)->str_to_print);
-	// if (((t_node_contents *)content)->print_value.s)
-	// 	free(((t_node_contents *)content)->print_value.s);
-	if (content)
-		free(content);
-}
-
-void	ft_free_format_specifier(t_format_specifier *format_specifier)
+void	ft_free_format_spec(t_format_specifier *format_specifier)
 {
 	if (format_specifier)
 	{
@@ -87,7 +65,7 @@ char	*ft_free_all(unsigned int n, ...)
 {
 	va_list	args;
 	void	*ptr;
-	
+
 	va_start(args, n);
 	while (0 < n)
 	{
